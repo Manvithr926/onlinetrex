@@ -34,32 +34,32 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(600, 200);
+  createCanvas(windowWidth,windowHeigth );
   
-  trex = createSprite(50,180,20,50);
+  trex = createSprite(50,heigth-70,20,50);
   
   trex.addAnimation("running", trex_running);
   trex.addAnimation("collided", trex_collided);
   trex.scale = 0.5;
   
-  ground = createSprite(200,180,400,20);
+  ground = createSprite(width/2,heigth,width,20);
   ground.addImage("ground",groundImage);
-  ground.x = ground.width /2;
+  ground.x = width /2;
   ground.velocityX = -(6 + 3*score/100);
   
-  gameOver = createSprite(300,100);
+  gameOver = createSprite(width/2,heigth/2-50);
   gameOver.addImage(gameOverImg);
   
-  restart = createSprite(300,140);
+  restart = createSprite(width/2,heigth/2);
   restart.addImage(restartImg);
   
   gameOver.scale = 0.5;
   restart.scale = 0.5;
 
-  gameOver.visible = true;
+  gameOver.visible =false ;
   restart.visible = false;
   
-  invisibleGround = createSprite(200,190,400,10);
+  invisibleGround = createSprite(width/2,heigth-10,width,10);
   invisibleGround.visible = false;
   
   cloudsGroup = new Group();
@@ -77,8 +77,10 @@ function draw() {
     score = score + Math.round(getFrameRate()/60);
     ground.velocityX = -(6 + 3*score/100);
   
-    if(keyDown("space") && trex.y >= 159) {
+    if((touches.length >0|| keyDown("space")) && trex.y >= heigth-120) {
+     jumpSound.play()
       trex.velocityY = -12;
+      touches=[]
     }
   
     trex.velocityY = trex.velocityY + 0.8
